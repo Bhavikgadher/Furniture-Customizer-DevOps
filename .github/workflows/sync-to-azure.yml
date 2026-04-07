@@ -20,5 +20,5 @@ jobs:
 
       - name: Push to Azure DevOps
         run: |
-          git remote add azure https://${{ secrets.AZURE_USERNAME }}:${{ secrets.AZURE_PAT }}@${{ secrets.AZURE_REPO_URL#https:// }}
+          git remote add azure https://${{ secrets.AZURE_USERNAME }}:${{ secrets.AZURE_PAT }}@${{ secrets.AZURE_REPO_URL }}
           git push azure HEAD:main --force
