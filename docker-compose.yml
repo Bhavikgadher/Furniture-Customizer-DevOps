@@ -1,21 +1,22 @@
 services:
   # ─── Database ─────────────────────────────────────────────────────────────
   db:
-    image: postgres:latest
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - pgdata:/var/lib/postgresql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - backend-network
+  image: postgres:16
+  restart: unless-stopped
+  environment:
+    POSTGRES_DB: ${DB_NAME}
+    POSTGRES_USER: ${DB_USER}
+    POSTGRES_PASSWORD: ${DB_PASSWORD}
+  volumes:
+    - pgdata:/var/lib/postgresql/data
+    - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+  healthcheck:
+    test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+  networks:
+    - backend-network
 
   # ─── Database Migration ──────────────────────────────────────────────────
   migrate:
@@ -26,7 +27,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: ["src/database/migrate.js"]
+    command: [ "src/database/migrate.js" ]
     env_file: .env
     networks:
       - backend-network
@@ -37,8 +38,6 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
     restart: "no"
-
-
 
   # ─── Backend API ────────────────────────────────────────────────────────
   backend:
@@ -63,7 +62,7 @@ services:
       - backend-network
       - frontend-network
     healthcheck:
-      test: ["CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:3000/health', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))"]
+      test: [ "CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:3000/health', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -88,7 +87,7 @@ services:
     networks:
       - frontend-network
     healthcheck:
-      test: ["CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:8080/', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))"]
+      test: [ "CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:8080/', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -113,7 +112,7 @@ services:
     networks:
       - frontend-network
     healthcheck:
-      test: ["CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:8081/', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))"]
+      test: [ "CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:8081/', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -131,4 +130,5 @@ networks:
 # ─── Persistant Storage ────────────────────────────────────────────────
 volumes:
   pgdata:
-    external: true
+
+
