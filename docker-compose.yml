@@ -1,22 +1,22 @@
 services:
   # ─── Database ─────────────────────────────────────────────────────────────
   db:
-  image: postgres:16
-  restart: unless-stopped
-  environment:
-    POSTGRES_DB: ${DB_NAME}
-    POSTGRES_USER: ${DB_USER}
-    POSTGRES_PASSWORD: ${DB_PASSWORD}
-  volumes:
-    - pgdata:/var/lib/postgresql/data
-    - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
-  healthcheck:
-    test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-    interval: 10s
-    timeout: 5s
-    retries: 5
-  networks:
-    - backend-network
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend-network
 
   # ─── Database Migration ──────────────────────────────────────────────────
   migrate:
