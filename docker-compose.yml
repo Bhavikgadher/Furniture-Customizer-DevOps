@@ -38,6 +38,35 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     restart: "no"
 
+  # ─── Database Seeding ────────────────────────────────────────────────────
+  seed-db:
+    image: postgres:latest
+    container_name: furniture-seeder
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - ./seed_25.sql:/seed_25.sql
+    command: >
+      sh -c '
+        echo "Checking if data exists...";
+        COUNT=$$(PGPASSWORD=$${DB_PASSWORD} psql -h db -U $${DB_USER} -d $${DB_NAME} -t -c "SELECT COUNT(*) FROM roles;" | tr -d " ");
+        if [ "$$COUNT" -eq 0 ]; then
+          echo "Seeding database with 25 dummy records...";
+          PGPASSWORD=$${DB_PASSWORD} psql -h db -U $${DB_USER} -d $${DB_NAME} -f /seed_25.sql;
+        else
+          echo "Database already seeded.";
+        fi
+      '
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - backend-network
+    restart: "no"
+
   # ─── Backend API ────────────────────────────────────────────────────────
   backend:
     build:
@@ -49,6 +78,8 @@ services:
       db:
         condition: service_healthy
       migrate:
+        condition: service_completed_successfully
+      seed-db:
         condition: service_completed_successfully
     ports:
       - "${PORT:-3000}:3000"
