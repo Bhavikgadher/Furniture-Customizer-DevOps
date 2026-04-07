@@ -26,7 +26,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ```bash
 git clone <your-repository-url>
-cd Last_Sem_Project
+cd Furniture-Customizer-DevOps
 ```
 
 ### 2. Configure Environment Variables
