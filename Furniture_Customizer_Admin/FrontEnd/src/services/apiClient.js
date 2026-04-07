@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
  */
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://20.244.29.200:3000',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -82,7 +82,7 @@ apiClient.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/auth/refresh-token`,
+          `${import.meta.env.VITE_API_BASE_URL || 'http://20.244.29.200:3000'}/api/auth/refresh-token`,
           { refreshToken },
         );
 
