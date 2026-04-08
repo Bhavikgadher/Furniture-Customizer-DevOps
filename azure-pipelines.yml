@@ -28,6 +28,7 @@ stages:
               "@
               $envContent | Out-File -FilePath .env -Encoding utf8
             displayName: 'Create root .env file'
+            pwsh: false
           - script: docker compose config --quiet
             displayName: 'Validate Compose File' 
 
@@ -58,6 +59,7 @@ stages:
               $adminEnv = "VITE_API_BASE_URL=$(VITE_API_BASE_URL)"
               $adminEnv | Out-File -FilePath Furniture_Customizer_Admin/FrontEnd/.env -Encoding utf8
             displayName: 'Create .env files'
+            pwsh: false
           - script: docker compose build
             displayName: 'Build Docker Images'
   
@@ -81,6 +83,7 @@ stages:
               "@
               $envContent | Out-File -FilePath .env -Encoding utf8
             displayName: 'Create root .env file'
+            pwsh: false
           - script: |
               docker compose down
               docker compose up -d
