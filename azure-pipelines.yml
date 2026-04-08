@@ -34,7 +34,10 @@ stages:
       - job: Deploy
         steps:
           - checkout: self
-          - script: 
-              docker compose down || true
-              docker compose up -d --build
+          - script: |
+              docker compose down
+              docker compose up -d
+              echo "Waiting for database to initialize..."
+              sleep 15
+              docker compose up -d
             displayName: 'Deploy Furniture Customizer'
