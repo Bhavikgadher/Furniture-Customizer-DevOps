@@ -15,16 +15,26 @@ stages:
         steps:
           - checkout: self
           - bash: |
-              echo "NODE_ENV=$(NODE_ENV)" > .env
-              echo "DB_NAME=$(DB_NAME)" >> .env
-              echo "DB_USER=$(DB_USER)" >> .env
-              echo "DB_PASSWORD=$(DB_PASSWORD)" >> .env
-              echo "DB_PORT=$(DB_PORT)" >> .env
-              echo "JWT_SECRET=$(JWT_SECRET)" >> .env
-              echo "PORT=$(PORT)" >> .env
-              echo "USER_UI_PORT=$(USER_UI_PORT)" >> .env
-              echo "ADMIN_UI_PORT=$(ADMIN_UI_PORT)" >> .env
+              echo "NODE_ENV=$NODE_ENV" > .env
+              echo "DB_NAME=$DB_NAME" >> .env
+              echo "DB_USER=$DB_USER" >> .env
+              echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+              echo "DB_PORT=$DB_PORT" >> .env
+              echo "JWT_SECRET=$JWT_SECRET" >> .env
+              echo "PORT=$PORT" >> .env
+              echo "USER_UI_PORT=$USER_UI_PORT" >> .env
+              echo "ADMIN_UI_PORT=$ADMIN_UI_PORT" >> .env
             displayName: 'Create root .env file'
+            env:
+              NODE_ENV: $(NODE_ENV)
+              DB_NAME: $(DB_NAME)
+              DB_USER: $(DB_USER)
+              DB_PASSWORD: $(DB_PASSWORD)
+              DB_PORT: $(DB_PORT)
+              JWT_SECRET: $(JWT_SECRET)
+              PORT: $(PORT)
+              USER_UI_PORT: $(USER_UI_PORT)
+              ADMIN_UI_PORT: $(ADMIN_UI_PORT)
           - script: docker compose config --quiet
             displayName: 'Validate Compose File' 
 
@@ -38,19 +48,30 @@ stages:
           - checkout: self
           - bash: |
               # Root .env
-              echo "NODE_ENV=$(NODE_ENV)" > .env
-              echo "DB_NAME=$(DB_NAME)" >> .env
-              echo "DB_USER=$(DB_USER)" >> .env
-              echo "DB_PASSWORD=$(DB_PASSWORD)" >> .env
-              echo "DB_PORT=$(DB_PORT)" >> .env
-              echo "JWT_SECRET=$(JWT_SECRET)" >> .env
-              echo "PORT=$(PORT)" >> .env
-              echo "USER_UI_PORT=$(USER_UI_PORT)" >> .env
-              echo "ADMIN_UI_PORT=$(ADMIN_UI_PORT)" >> .env
+              echo "NODE_ENV=$NODE_ENV" > .env
+              echo "DB_NAME=$DB_NAME" >> .env
+              echo "DB_USER=$DB_USER" >> .env
+              echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+              echo "DB_PORT=$DB_PORT" >> .env
+              echo "JWT_SECRET=$JWT_SECRET" >> .env
+              echo "PORT=$PORT" >> .env
+              echo "USER_UI_PORT=$USER_UI_PORT" >> .env
+              echo "ADMIN_UI_PORT=$ADMIN_UI_PORT" >> .env
 
               # Admin FrontEnd .env
-              echo "VITE_API_BASE_URL=$(VITE_API_BASE_URL)" > Furniture_Customizer_Admin/FrontEnd/.env
+              echo "VITE_API_BASE_URL=$VITE_API_BASE_URL" > Furniture_Customizer_Admin/FrontEnd/.env
             displayName: 'Create .env files'
+            env:
+              NODE_ENV: $(NODE_ENV)
+              DB_NAME: $(DB_NAME)
+              DB_USER: $(DB_USER)
+              DB_PASSWORD: $(DB_PASSWORD)
+              DB_PORT: $(DB_PORT)
+              JWT_SECRET: $(JWT_SECRET)
+              PORT: $(PORT)
+              USER_UI_PORT: $(USER_UI_PORT)
+              ADMIN_UI_PORT: $(ADMIN_UI_PORT)
+              VITE_API_BASE_URL: $(VITE_API_BASE_URL)
           - script: docker compose build
             displayName: 'Build Docker Images'
   
@@ -61,16 +82,26 @@ stages:
         steps:
           - checkout: self
           - bash: |
-              echo "NODE_ENV=$(NODE_ENV)" > .env
-              echo "DB_NAME=$(DB_NAME)" >> .env
-              echo "DB_USER=$(DB_USER)" >> .env
-              echo "DB_PASSWORD=$(DB_PASSWORD)" >> .env
-              echo "DB_PORT=$(DB_PORT)" >> .env
-              echo "JWT_SECRET=$(JWT_SECRET)" >> .env
-              echo "PORT=$(PORT)" >> .env
-              echo "USER_UI_PORT=$(USER_UI_PORT)" >> .env
-              echo "ADMIN_UI_PORT=$(ADMIN_UI_PORT)" >> .env
+              echo "NODE_ENV=$NODE_ENV" > .env
+              echo "DB_NAME=$DB_NAME" >> .env
+              echo "DB_USER=$DB_USER" >> .env
+              echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+              echo "DB_PORT=$DB_PORT" >> .env
+              echo "JWT_SECRET=$JWT_SECRET" >> .env
+              echo "PORT=$PORT" >> .env
+              echo "USER_UI_PORT=$USER_UI_PORT" >> .env
+              echo "ADMIN_UI_PORT=$ADMIN_UI_PORT" >> .env
             displayName: 'Create root .env file'
+            env:
+              NODE_ENV: $(NODE_ENV)
+              DB_NAME: $(DB_NAME)
+              DB_USER: $(DB_USER)
+              DB_PASSWORD: $(DB_PASSWORD)
+              DB_PORT: $(DB_PORT)
+              JWT_SECRET: $(JWT_SECRET)
+              PORT: $(PORT)
+              USER_UI_PORT: $(USER_UI_PORT)
+              ADMIN_UI_PORT: $(ADMIN_UI_PORT)
           - script: |
               docker compose down
               docker compose up -d
