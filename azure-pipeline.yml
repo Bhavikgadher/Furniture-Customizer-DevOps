@@ -1,0 +1,29 @@
+trigger:
+  branches:
+    include:
+      - main
+
+
+pool:
+  name: 'SelfHostedPool'
+
+stages:
+  - stage: Code
+    displayName: 'Code'
+    jobs:
+      - job: Validate
+        steps:
+          - checkout: self
+          - script: docker compose config --quiet
+            displayName: 'Validate Compose File' 
+
+            
+  - stage: Build
+    displayName: 'Build'
+    dependsOn: Code
+    jobs:
+      - job: Build
+        steps:
+          - checkout: self
+          - script: docker compose build
+            displayName: 'Build Docker Images'
