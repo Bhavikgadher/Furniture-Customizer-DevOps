@@ -27,3 +27,14 @@ stages:
           - checkout: self
           - script: docker compose build
             displayName: 'Build Docker Images'
+  
+  - stage: Deploy
+    displayName: 'Deploy'
+    jobs:
+      - job: Deploy
+        steps:
+          - checkout: self
+          - script: 
+              docker compose down || true
+              docker compose up -d --build
+            displayName: 'Deploy Furniture Customizer'
