@@ -28,33 +28,33 @@ import Settings from './pages/customer/Settings';
 import Reviews from './pages/customer/Reviews';
 import Support from './pages/customer/Support';
 import Booking from './pages/customer/Booking';
-import VendorLogin from './pages/customer/VendorLogin';
-import VendorRegister from './pages/customer/VendorRegister';
-import VendorPending from './pages/customer/VendorPending';
-import VendorForgotPassword from './pages/customer/VendorForgotPassword';
-import VendorDashboard from './pages/vendor/VendorDashboard';
-import VendorAnalytics from './pages/vendor/VendorAnalytics';
-import VendorAddProduct from './pages/vendor/VendorAddProduct';
-import VendorEditProduct from './pages/vendor/VendorEditProduct';
-import VendorProducts from './pages/vendor/VendorProducts';
-import VendorUploadModel from './pages/vendor/VendorUploadModel';
-import VendorConfigurator from './pages/vendor/VendorConfigurator';
-import VendorOrders from './pages/vendor/VendorOrders';
-import VendorProduction from './pages/vendor/VendorProduction';
-import VendorOrderDetails from './pages/vendor/VendorOrderDetails';
-import VendorShipping from './pages/vendor/VendorShipping';
-import VendorRevenue from './pages/vendor/VendorRevenue';
-import VendorPerformance from './pages/vendor/VendorPerformance';
-import VendorSales from './pages/vendor/VendorSales';
-import VendorInventory from './pages/vendor/VendorInventory';
-import VendorStock from './pages/vendor/VendorStock';
-import VendorLowStock from './pages/vendor/VendorLowStock';
-import VendorFinancial from './pages/vendor/VendorFinancial';
-import VendorNotifications from './pages/vendor/VendorNotifications';
-import VendorChangePassword from './pages/vendor/VendorChangePassword';
-import VendorProfile from './pages/vendor/VendorProfile';
-import VendorQueries from './pages/vendor/VendorQueries';
-import VendorReviews from './pages/vendor/VendorReviews';
+// import VendorLogin from './pages/customer/VendorLogin';
+// import VendorRegister from './pages/customer/VendorRegister';
+// import VendorPending from './pages/customer/VendorPending';
+// import VendorForgotPassword from './pages/customer/VendorForgotPassword';
+// import VendorDashboard from './pages/vendor/VendorDashboard';
+// import VendorAnalytics from './pages/vendor/VendorAnalytics';
+// import VendorAddProduct from './pages/vendor/VendorAddProduct';
+// import VendorEditProduct from './pages/vendor/VendorEditProduct';
+// import VendorProducts from './pages/vendor/VendorProducts';
+// import VendorUploadModel from './pages/vendor/VendorUploadModel';
+// import VendorConfigurator from './pages/vendor/VendorConfigurator';
+// import VendorOrders from './pages/vendor/VendorOrders';
+// import VendorProduction from './pages/vendor/VendorProduction';
+// import VendorOrderDetails from './pages/vendor/VendorOrderDetails';
+// import VendorShipping from './pages/vendor/VendorShipping';
+// import VendorRevenue from './pages/vendor/VendorRevenue';
+// import VendorPerformance from './pages/vendor/VendorPerformance';
+// import VendorSales from './pages/vendor/VendorSales';
+// import VendorInventory from './pages/vendor/VendorInventory';
+// import VendorStock from './pages/vendor/VendorStock';
+// import VendorLowStock from './pages/vendor/VendorLowStock';
+// import VendorFinancial from './pages/vendor/VendorFinancial';
+// import VendorNotifications from './pages/vendor/VendorNotifications';
+// import VendorChangePassword from './pages/vendor/VendorChangePassword';
+// import VendorProfile from './pages/vendor/VendorProfile';
+// import VendorQueries from './pages/vendor/VendorQueries';
+// import VendorReviews from './pages/vendor/VendorReviews';
 
 /**
  * App Component
@@ -85,33 +85,6 @@ import VendorReviews from './pages/vendor/VendorReviews';
  *   /reviews           → Reviews & Ratings Page
  *   /support           → Support Tickets Page
  *   /booking           → Book a Master Session Page
- *   /vendor-login      → Vendor Login Page
- *   /vendor-register   → Vendor Registration Page
- *   /vendor-pending    → Vendor Application Pending Page
- *   /vendor-forgot-password → Vendor Forgot Password Page
- *   /vendor-dashboard  → Vendor Dashboard Page
- *   /vendor-analytics  → Vendor Sales Analytics Page
- *   /vendor-add-product → Vendor Add Product Page
- *   /vendor-edit-product → Vendor Edit Product Page
- *   /vendor-products  → Vendor Product Management Page
- *   /vendor-upload-model → Vendor Upload 3D Model Page
- *   /vendor-configurator → Vendor Customization Configuration Page
- *   /vendor-orders    → Vendor Order Management Page
- *   /vendor-production → Vendor Production Dashboard Page
- *   /vendor-order-details → Vendor Order Details Page
- *   /vendor-shipping  → Vendor Update Shipping Page
- *   /vendor-revenue   → Vendor Revenue Report Page
- *   /vendor-performance → Vendor Product Performance Page
- *   /vendor-sales     → Vendor Sales Dashboard Page
- *   /vendor-inventory → Vendor Raw Material Inventory Page
- *   /vendor-stock     → Vendor Stock Manager Page
- *   /vendor-low-stock → Vendor Low Stock Alerts Page
- *   /vendor-financial → Vendor Financial Profile Page
- *   /vendor-notifications → Vendor Notification Settings Page
- *   /vendor-change-password → Vendor Change Password Page
- *   /vendor-profile   → Vendor Profile Page (Public)
- *   /vendor-queries   → Vendor Query Portal Page
- *   /vendor-reviews   → Vendor Customer Reviews Page
  *   /login            → Login Page
  *   /signup           → Register Page
  *   /forgot-password  → Forgot Password Page
@@ -146,31 +119,32 @@ function App() {
                     <Route path="/preview-3d" element={<Preview3D />} />
 
                     {/* Customer Protected Routes */}
-                    <Route path="/workshop" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Workshop /></ProtectedRoute>} />
-                    <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Wishlist /></ProtectedRoute>} />
-                    <Route path="/cart" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Cart /></ProtectedRoute>} />
-                    <Route path="/checkout" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Checkout /></ProtectedRoute>} />
-                    <Route path="/order-confirmation" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><OrderConfirmation /></ProtectedRoute>} />
-                    <Route path="/orders" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Orders /></ProtectedRoute>} />
-                    <Route path="/orders/:id" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><OrderDetail /></ProtectedRoute>} />
-                    <Route path="/order-detail/:id" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><OrderDetail /></ProtectedRoute>} />
-                    <Route path="/track-order/:id" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><TrackOrder /></ProtectedRoute>} />
-                    <Route path="/return-request" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><ReturnRequest /></ProtectedRoute>} />
-                    <Route path="/profile" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Profile /></ProtectedRoute>} />
-                    <Route path="/addresses" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Addresses /></ProtectedRoute>} />
-                    <Route path="/change-password" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><ChangePassword /></ProtectedRoute>} />
-                    <Route path="/settings" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Settings /></ProtectedRoute>} />
-                    <Route path="/reviews" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Reviews /></ProtectedRoute>} />
-                    <Route path="/support" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Support /></ProtectedRoute>} />
-                    <Route path="/booking" element={<ProtectedRoute allowedRoles={['customer', 'vendor']}><Booking /></ProtectedRoute>} />
+                    <Route path="/workshop" element={<ProtectedRoute allowedRoles={['customer']}><Workshop /></ProtectedRoute>} />
+                    <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['customer']}><Wishlist /></ProtectedRoute>} />
+                    <Route path="/cart" element={<ProtectedRoute allowedRoles={['customer']}><Cart /></ProtectedRoute>} />
+                    <Route path="/checkout" element={<ProtectedRoute allowedRoles={['customer']}><Checkout /></ProtectedRoute>} />
+                    <Route path="/order-confirmation" element={<ProtectedRoute allowedRoles={['customer']}><OrderConfirmation /></ProtectedRoute>} />
+                    <Route path="/orders" element={<ProtectedRoute allowedRoles={['customer']}><Orders /></ProtectedRoute>} />
+                    <Route path="/orders/:id" element={<ProtectedRoute allowedRoles={['customer']}><OrderDetail /></ProtectedRoute>} />
+                    <Route path="/order-detail/:id" element={<ProtectedRoute allowedRoles={['customer']}><OrderDetail /></ProtectedRoute>} />
+                    <Route path="/track-order/:id" element={<ProtectedRoute allowedRoles={['customer']}><TrackOrder /></ProtectedRoute>} />
+                    <Route path="/return-request" element={<ProtectedRoute allowedRoles={['customer']}><ReturnRequest /></ProtectedRoute>} />
+                    <Route path="/profile" element={<ProtectedRoute allowedRoles={['customer']}><Profile /></ProtectedRoute>} />
+                    <Route path="/addresses" element={<ProtectedRoute allowedRoles={['customer']}><Addresses /></ProtectedRoute>} />
+                    <Route path="/change-password" element={<ProtectedRoute allowedRoles={['customer']}><ChangePassword /></ProtectedRoute>} />
+                    <Route path="/settings" element={<ProtectedRoute allowedRoles={['customer']}><Settings /></ProtectedRoute>} />
+                    <Route path="/reviews" element={<ProtectedRoute allowedRoles={['customer']}><Reviews /></ProtectedRoute>} />
+                    <Route path="/support" element={<ProtectedRoute allowedRoles={['customer']}><Support /></ProtectedRoute>} />
+                    <Route path="/booking" element={<ProtectedRoute allowedRoles={['customer']}><Booking /></ProtectedRoute>} />
                 </Route>
 
+                {/* Vendor application routes are disabled in this build */}
+                {/* 
                 <Route path="/vendor-login" element={<VendorLogin />} />
                 <Route path="/vendor-register" element={<VendorRegister />} />
                 <Route path="/vendor-pending" element={<VendorPending />} />
                 <Route path="/vendor-forgot-password" element={<VendorForgotPassword />} />
 
-                {/* Vendor Dashboard Routes (Own Layout) */}
                 <Route path="/vendor-dashboard" element={<ProtectedRoute allowedRoles={['vendor']}><VendorDashboard /></ProtectedRoute>} />
                 <Route path="/vendor-analytics" element={<ProtectedRoute allowedRoles={['vendor']}><VendorAnalytics /></ProtectedRoute>} />
                 <Route path="/vendor-add-product" element={<ProtectedRoute allowedRoles={['vendor']}><VendorAddProduct /></ProtectedRoute>} />
@@ -194,6 +168,7 @@ function App() {
                 <Route path="/vendor-profile" element={<ProtectedRoute allowedRoles={['vendor']}><VendorProfile /></ProtectedRoute>} />
                 <Route path="/vendor-queries" element={<ProtectedRoute allowedRoles={['vendor']}><VendorQueries /></ProtectedRoute>} />
                 <Route path="/vendor-reviews" element={<ProtectedRoute allowedRoles={['vendor']}><VendorReviews /></ProtectedRoute>} />
+                */}
 
                 {/* Catch-all: redirect unknown routes to home */}
                 <Route path="*" element={<Navigate to="/" replace />} />

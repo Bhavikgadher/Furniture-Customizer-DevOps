@@ -11,8 +11,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
     if (!isAuthenticated) {
         // Redirect to login page
-        const loginPath = allowedRoles?.length === 1 && allowedRoles[0] === 'vendor' ? '/vendor-login' : '/login';
-        return <Navigate to={loginPath} state={{ from: location }} replace />;
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
     const userRole = user?.role;

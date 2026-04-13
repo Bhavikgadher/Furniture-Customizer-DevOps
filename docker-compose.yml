@@ -21,8 +21,9 @@ services:
   # ─── Database Migration ──────────────────────────────────────────────────
   migrate:
     build:
-      context: ./Furniture-Backend
+      context: .
       dockerfile: Dockerfile
+      target: backend
     container_name: furniture-migrate
     depends_on:
       db:
@@ -42,8 +43,9 @@ services:
   # ─── Backend API ────────────────────────────────────────────────────────
   backend:
     build:
-      context: ./Furniture-Backend
+      context: .
       dockerfile: Dockerfile
+      target: backend
     container_name: furniture-backend
     restart: unless-stopped
     depends_on:
@@ -71,8 +73,9 @@ services:
   # ─── End-User Frontend ──────────────────────────────────────────────────
   user-ui:
     build:
-      context: ./Furniture_Customizer_EndUser
+      context: .
       dockerfile: Dockerfile
+      target: user-ui
     container_name: furniture-user-ui
     restart: unless-stopped
     depends_on:
@@ -96,8 +99,9 @@ services:
   # ─── Admin Frontend ────────────────────────────────────────────────────
   admin-ui:
     build:
-      context: ./Furniture_Customizer_Admin/FrontEnd
+      context: .
       dockerfile: Dockerfile
+      target: admin-ui
     container_name: furniture-admin-ui
     restart: unless-stopped
     depends_on:
