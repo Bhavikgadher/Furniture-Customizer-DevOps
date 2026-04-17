@@ -1,0 +1,127 @@
+services:
+  # ─── Database ─────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend-network
+
+  # ─── Database Migration ──────────────────────────────────────────────────
+  migrate:
+    image: ${DOCKERHUB_USER}/furniture-backend:latest
+    container_name: furniture-migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    command: [ "src/database/migrate.js" ]
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - backend-network
+    restart: "no"
+
+  # ─── Backend API ────────────────────────────────────────────────────────
+  backend:
+    image: ${DOCKERHUB_USER}/furniture-backend:latest
+    container_name: furniture-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: production
+      PORT: 3000
+    networks:
+      - backend-network
+      - frontend-network
+    healthcheck:
+      test: [ "CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:3000/health', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ─── End-User Frontend ──────────────────────────────────────────────────
+  user-ui:
+    image: ${DOCKERHUB_USER}/furniture-user-ui:latest
+    container_name: furniture-user-ui
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "80:8080"
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      VITE_API_BASE_URL: http://backend:3000/api
+    networks:
+      - frontend-network
+    healthcheck:
+      test: [ "CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:8080/', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # ─── Admin Frontend ────────────────────────────────────────────────────
+  admin-ui:
+    image: ${DOCKERHUB_USER}/furniture-admin-ui:latest
+    container_name: furniture-admin-ui
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      NODE_ENV: production
+      PORT: 8081
+      VITE_API_BASE_URL: http://backend:3000/api
+    networks:
+      - frontend-network
+    healthcheck:
+      test: [ "CMD", "/nodejs/bin/node", "-e", "require('http').get('http://127.0.0.1:8081/', (res) => (res.statusCode === 200 ? process.exit(0) : process.exit(1))).on('error', () => process.exit(1))" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+# ─── Networks ──────────────────────────────────────────────────────────
+networks:
+  backend-network:
+    driver: bridge
+    name: furniture-backend-net-prod
+  frontend-network:
+    driver: bridge
+    name: furniture-frontend-net-prod
+
+# ─── Persistant Storage ────────────────────────────────────────────────
+volumes:
+  pgdata:
