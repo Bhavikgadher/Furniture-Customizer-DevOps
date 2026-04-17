@@ -75,13 +75,21 @@ jobs:
             # Login to Docker Hub
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ vars.DOCKERHUB_USER }}" --password-stdin
             
+            # Use docker compose or docker-compose depending on what is installed
+            if docker compose version > /dev/null 2>&1; then
+              DOCKER_CMD="docker compose"
+            else
+              DOCKER_CMD="docker-compose"
+            fi
+            
             # Stop existing containers, pull latest, and start
-            docker compose down --remove-orphans
-            docker compose pull
-            docker compose up -d
+            $DOCKER_CMD down --remove-orphans
+            $DOCKER_CMD pull
+            $DOCKER_CMD up -d
             
             # Cleanup old images
             docker image prune -af
+
 
 
 
