@@ -25,36 +25,11 @@ spec:
             value: "production"
           - name: PORT
             value: "3000"
-          - name: DB_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: furniture-customize-config-map
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: furniture-customize-config-map
-                key: DB_PORT
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: furniture-customize-config-map
-                key: POSTGRES_DB
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: furniture-customize-config-map
-                key: POSTGRES_USER
-          - name: JWT_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: furniture-customize-secrets
-                key: JWT_SECRET
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: furniture-customize-secrets
-                key: POSTGRES_PASSWORD
+        envFrom:
+        - configMapRef:
+            name: furniture-customize-config-map
+        - secretRef:
+            name: furniture-customize-secrets
         readinessProbe:
           httpGet:
             path: /health

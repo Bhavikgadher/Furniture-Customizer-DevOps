@@ -20,19 +20,11 @@ spec:
         image: postgres:16
         ports:
         - containerPort: 5432
-        env:
-          - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: furniture-customize-config-map
-                key: POSTGRES_DB
-
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: furniture-customize-secrets
-                key: POSTGRES_PASSWORD
-
+        envFrom:
+        - configMapRef:
+            name: furniture-customize-config-map
+        - secretRef:
+            name: furniture-customize-secrets
         readinessProbe:
             exec:
               command: 

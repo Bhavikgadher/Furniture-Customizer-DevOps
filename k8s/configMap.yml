@@ -5,6 +5,8 @@ metadata:
   namespace: furniture-customize
 data:
   POSTGRES_DB: mainbackend
+  DB_NAME: mainbackend
   POSTGRES_USER: postgres
+  DB_USER: postgres
   DB_HOST: postgresql-service
   DB_PORT: "5432"
