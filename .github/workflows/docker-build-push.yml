@@ -33,7 +33,6 @@ jobs:
           push: true
           tags: |
             ${{ vars.DOCKERHUB_USER }}/furniture-${{ matrix.component }}:latest
-            # ${{ vars.DOCKERHUB_USER }}/furniture-${{ matrix.component }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
