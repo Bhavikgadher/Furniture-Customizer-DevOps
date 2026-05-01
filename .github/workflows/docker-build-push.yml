@@ -49,45 +49,29 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
-          source: "docker-compose.prod.yml,backup.sql"
-          target: "~/furniture-app"
+          source: "k8s/"
+          target: "~/Furniture-Customizer-DevOps"
 
-      - name: Deploy to EC2
+      - name: Deploy to EC2 with Kubernetes
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
           script: |
-            cd ~/furniture-app
+            cd ~/Furniture-Customizer-DevOps
             
-            # Rename prod compose to standard name
-            mv docker-compose.prod.yml docker-compose.yml
+            # Apply the Kubernetes manifests
+            kubectl apply -f k8s/
             
-            # Create/Update .env file from secrets
-            echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
-            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-            echo "DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}" >> .env
+            # Restart deployments to ensure they pull the latest images
+            kubectl rollout restart deployment/backend-deployment -n furniture-customize
+            kubectl rollout restart deployment/user-ui-deployment -n furniture-customize
+            kubectl rollout restart deployment/admin-ui-deployment -n furniture-customize
             
-            # Login to Docker Hub
-            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ vars.DOCKERHUB_USER }}" --password-stdin
-            
-            # Use docker compose or docker-compose depending on what is installed
-            if docker compose version > /dev/null 2>&1; then
-              DOCKER_CMD="docker compose"
-            else
-              DOCKER_CMD="docker-compose"
-            fi
-            
-            # Stop existing containers, pull latest, and start
-            $DOCKER_CMD down --remove-orphans
-            $DOCKER_CMD pull
-            $DOCKER_CMD up -d
-            
-            # Cleanup old images
-            docker image prune -af
+            # Delete and recreate the migration job
+            kubectl delete job database-migration-job -n furniture-customize --ignore-not-found
+            kubectl apply -f k8s/migrate-job.yml
 
 
 
