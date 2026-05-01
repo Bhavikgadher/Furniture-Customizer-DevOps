@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgresql-service
+  namespace: furniture-customize
+spec:
+  selector:
+    app: postgresql
+  ports:
+    - port: 5432
+

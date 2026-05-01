@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: furniture-customizer-deployment
+  namespace: furniture-customize
+  labels:
+    app: furniture-customize
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: furniture-customize
+  template:
+    metadata:
+      labels:
+        app: furniture-customize
+    spec:
+      containers:
+      - name: furniture-customize
+        image: bhavikgadher/furniture-customizer-app:0c0525a5ff7af20c6a53a70b41f597ae5531e74a
+        ports:
+        - containerPort: 8080
+        env:
+
+            
+

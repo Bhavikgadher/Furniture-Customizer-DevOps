@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: furniture-customize-config-map
+  namespace: furniture-customize
+data:
+  POSTGRES_DB: mainbackend
