@@ -1,5 +1,5 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: postgresql-service
   namespace: furniture-customize
@@ -8,4 +8,50 @@ spec:
     app: postgresql
   ports:
     - port: 5432
-
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: furniture-customize
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-ui-service
+  namespace: furniture-customize
+spec:
+  selector:
+    app: user-ui
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-ui-service
+  namespace: furniture-customize
+spec:
+  selector:
+    app: admin-ui
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30081
+  type: NodePort
