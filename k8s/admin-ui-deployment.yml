@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: admin-ui
-        image: bhavikgadher/furniture-customizer-admin:latest # Update this image tag
+        image: bhavikgadher/furniture-admin-ui:latest
         ports:
         - containerPort: 8081
         env:

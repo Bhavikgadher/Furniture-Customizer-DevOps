@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: user-ui
-        image: bhavikgadher/furniture-customizer-app:0c0525a5ff7af20c6a53a70b41f597ae5531e74a
+        image: bhavikgadher/furniture-user-ui:latest
         ports:
         - containerPort: 8080
         env:

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: bhavikgadher/furniture-customizer-backend:latest # Update this image tag
+        image: bhavikgadher/furniture-backend:latest
         ports:
         - containerPort: 3000
         env:
