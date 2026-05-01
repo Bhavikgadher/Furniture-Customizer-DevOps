@@ -26,16 +26,30 @@ spec:
           - name: PORT
             value: "3000"
           - name: DB_HOST
-            value: "postgresql-service"
+            valueFrom:
+              configMapKeyRef:
+                name: furniture-customize-config-map
+                key: DB_HOST
           - name: DB_PORT
-            value: "5432"
+            valueFrom:
+              configMapKeyRef:
+                name: furniture-customize-config-map
+                key: DB_PORT
           - name: DB_NAME
             valueFrom:
               configMapKeyRef:
                 name: furniture-customize-config-map
                 key: POSTGRES_DB
           - name: DB_USER
-            value: "postgres"
+            valueFrom:
+              configMapKeyRef:
+                name: furniture-customize-config-map
+                key: POSTGRES_USER
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: furniture-customize-secrets
+                key: JWT_SECRET
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
