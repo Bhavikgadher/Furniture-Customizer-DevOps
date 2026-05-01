@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: database-migration-job
+  namespace: furniture-customize
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate
+        image: bhavikgadher/furniture-customizer-backend:latest # Same image as backend
+        command: ["node", "src/database/migrate.js"]
+        env:
+          - name: NODE_ENV
+            value: "production"
+          - name: DB_HOST
+            value: "postgresql-service"
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: furniture-customize-config-map
+                key: POSTGRES_DB
+          - name: DB_USER
+            value: "postgres"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: furniture-customize-secrets
+                key: POSTGRES_PASSWORD
+      restartPolicy: OnFailure
+  backoffLimit: 4
