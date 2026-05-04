@@ -20,6 +20,13 @@ spec:
         image: bhavikgadher/furniture-admin-ui:latest
         ports:
         - containerPort: 8081
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
         env:
           - name: NODE_ENV
             value: "production"
